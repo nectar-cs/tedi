@@ -44,6 +44,18 @@ def clean_up():
   )
 
 
+def setup_interp(file):
+  set_env(
+    chart_repo=local_repo,
+    chart_clone_dir=clone_into,
+    chart_dir=copy_into,
+    overrides_path=f'{overrides_dir}/{file}.yaml'
+  )
+  git_init_local_repo()
+  main.init_helm()
+  return list(yaml.load_all(main.interpolate(), Loader=yaml.FullLoader))[0]
+
+
 class TestMain(unittest.TestCase):
 
   def setUp(self) -> None:
@@ -54,17 +66,6 @@ class TestMain(unittest.TestCase):
 
   def test_exec_cmd(self):
     self.assertEqual(main.exec_cmd("echo foo"), "foo")
-
-  def setup_interp(self, file):
-    set_env(
-      chart_repo=local_repo,
-      chart_clone_dir=clone_into,
-      chart_dir=copy_into,
-      overrides_path=f'{overrides_dir}/{file}.yaml'
-    )
-    git_init_local_repo()
-    main.init_helm()
-    return list(yaml.load_all(main.interpolate(), Loader=yaml.FullLoader))[0]
 
   def test_clone_chart_repo_cmd(self):
     set_env(
@@ -104,11 +105,11 @@ class TestMain(unittest.TestCase):
     self.assertGreater(len(os.listdir(clone_into)), 1)
 
   def test_interpolate_without_override(self):
-    svc = self.setup_interp('no_change')
+    svc = setup_interp('no_change')
     actual = svc['spec']['ports'][0]['port']
     self.assertEqual(actual, 9000)
 
   def test_interpolate_with_override(self):
-    svc = self.setup_interp('plus_one')
+    svc = setup_interp('plus_one')
     actual = svc['spec']['ports'][0]['port']
     self.assertEqual(actual, 9001)

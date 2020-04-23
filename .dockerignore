@@ -1,0 +1,6 @@
+/tests/sim_chart_repo/.git
+.idea
+/test
+.env
+.git
+.gitignore

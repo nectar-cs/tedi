@@ -28,13 +28,16 @@ def cp_repo_to_dir_cmd():
 
 
 def init_helm():
-  exec_cmd(clone_chart_repo_cmd())
-  exec_cmd(cp_repo_to_dir_cmd())
+  try:
+    exec_cmd(clone_chart_repo_cmd())
+    exec_cmd(cp_repo_to_dir_cmd())
+    return True
+  except RuntimeError:
+    return False
 
 
 def interpolate():
   f_paths = " -f ".join([values_path(), overrides_path()])
-  print(f"Going {f_paths}")
   command = f"helm template {chart_dir()} -f {f_paths}"
   return exec_cmd(command).replace('RELEASE-NAME-', '')
 
@@ -43,9 +46,9 @@ def main():
   if len(sys.argv) < 1:
     print("Need 1 arg")
   elif sys.argv[1] == 'init':
-    init_helm()
+    print(init_helm(), flush=True)
   elif sys.argv[1] == 'interpolate':
-    print(interpolate())
+    print(interpolate(), flush=True)
 
 
 if __name__ == '__main__':

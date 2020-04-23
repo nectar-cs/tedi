@@ -1,10 +1,12 @@
-FROM python:3.6
+FROM python:3.6.1-alpine
 
-RUN apt-get update && apt-get install git \
-                                      curl
+WORKDIR /app
 
-ADD requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN apk --update add git curl
+
+RUN pip3 install pipenv
+ADD Pipfile Pipfile.lock ./
+RUN pipenv install
 
 RUN curl https://get.helm.sh/helm-v3.1.0-linux-amd64.tar.gz --output helm_bin.tar.gz
 RUN tar -zxvf helm_bin.tar.gz
@@ -17,5 +19,6 @@ RUN chmod +x ./kubectl
 RUN mv ./kubectl /usr/local/bin/kubectl
 RUN kubectl version --client
 
-ADD helm-ted/main.py /nectar/
-#ENTRYPOINT ["python", "nectar/main.py"]
+ADD . .
+RUN ls
+ENTRYPOINT ["pipenv", "run", "python3", "/app/main.py"]
