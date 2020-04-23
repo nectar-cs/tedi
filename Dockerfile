@@ -2,7 +2,10 @@ FROM python:3.6.1-alpine
 
 WORKDIR /app
 
-RUN apk --update add git curl
+RUN apk --update add git curl rsync
+
+RUN git config --global user.email "you@example.com"
+RUN git config --global user.name "Your Name"
 
 RUN pip3 install pipenv
 ADD Pipfile Pipfile.lock ./
@@ -16,4 +19,4 @@ RUN rm -rf linux-amd64
 
 ADD . .
 
-ENTRYPOINT ["pipenv", "run", "python3"]
+CMD ["pipenv", "run", "python3", "-m", "unittest"]
