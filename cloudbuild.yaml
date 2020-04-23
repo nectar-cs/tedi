@@ -10,4 +10,5 @@ steps:
   - id: "Test Image"
     name: 'gcr.io/cloud-builders/docker'
     args:
-      - "run testing"
+      - "run"
+      - "testing"
