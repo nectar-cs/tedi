@@ -23,11 +23,12 @@ def set_env(**kwargs):
 
 
 def git_init_local_repo():
+  here = main.exec_cmd("pwd")
   cmd = f"cd {local_repo}; " \
         f"git init; " \
         f"git add . -A; " \
         f"git commit -m 't'; " \
-        f"cd .."
+        f"cd {here}"
   subprocess.check_output(cmd, shell=True)
 
 
