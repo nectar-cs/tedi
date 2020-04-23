@@ -1,0 +1,5 @@
+{
+  "livenessProbe": {
+    "initialDelaySeconds": 31
+  }
+}
