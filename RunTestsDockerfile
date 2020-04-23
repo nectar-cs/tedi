@@ -19,4 +19,7 @@ RUN rm -rf linux-amd64
 
 ADD . .
 
+RUN mkdir /app/lols
+ENV TEST_TMP_ROOT /app/lols
+
 CMD ["pipenv", "run", "python3", "-m", "unittest"]

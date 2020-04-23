@@ -6,6 +6,8 @@ steps:
       - "."
       - "-t"
       - "testing"
+      - '-f'
+      - 'RunTestsDockerfile'
 
   - id: "Test Image"
     name: 'gcr.io/cloud-builders/docker'

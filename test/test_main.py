@@ -10,8 +10,9 @@ from helm_ted import main, utils
 
 load_dotenv()
 
-clone_into = '/tmp/helm-ted-ci/raw'
-copy_into = '/tmp/helm-ted-ci/chart'
+tmp = os.environ.get("TEST_TMP_ROOT", '/tmp')
+clone_into = f'{tmp}/helm-ted-ci/raw'
+copy_into = f'{tmp}/helm-ted-ci/chart'
 local_repo = f'{utils.project_root()}/test/sim_chart_repo'
 overrides_dir = f'{utils.project_root()}/test/overrides'
 
