@@ -3,39 +3,68 @@ import shutil
 import subprocess
 import unittest
 
+import yaml
 from dotenv import load_dotenv
 
 from helm_ted import main
 
 load_dotenv()
 
+clone_into = '/tmp/helm-ted-ci/raw'
+copy_into = '/tmp/helm-ted-ci/chart'
+local_repo = 'sim_chart_repo'
+overrides_dir = 'overrides'
+
 def set_env(**kwargs):
   for key, value in kwargs.items():
     os.environ[key.upper()] = value
 
-clone_into = '/tmp/helm-ted-ci/raw'
-copy_into = '/tmp/helm-ted-ci/chart'
-local_repo = 'sim_chart_repo'
 
 def git_init_local_repo():
-  full_path = os.path.realpath(__file__)
-  path, filename = os.path.split(full_path)
-  cmd = f"cd {local_repo}; git init; git add . -A; git commit -m 't'; cd .."
+  cmd = f"cd {local_repo}; " \
+        f"git init; " \
+        f"git add . -A; " \
+        f"git commit -m 't'; " \
+        f"cd .."
   subprocess.check_output(cmd, shell=True)
+
+
+def clean_up():
+  if os.path.exists(copy_into):
+    shutil.rmtree(copy_into)
+  if os.path.exists(clone_into):
+    shutil.rmtree(clone_into)
+  if os.path.exists(f'{local_repo}/.git'):
+    shutil.rmtree(f'{local_repo}/.git')
+  set_env(
+    chart_clone_dir='',
+    chart_sub_path='',
+    chart_dir='',
+    chart_repo='',
+  )
 
 
 class TestMain(unittest.TestCase):
 
   def setUp(self) -> None:
-    if os.path.exists(clone_into):
-      shutil.rmtree(clone_into)
+    clean_up()
 
   def tearDown(self) -> None:
-    if os.path.exists(f'{local_repo}/.git'):
-      shutil.rmtree(f'{local_repo}/.git')
+    clean_up()
 
   def test_exec_cmd(self):
     self.assertEqual(main.exec_cmd("echo foo"), "foo")
+
+  def setup_interp(self, file):
+    set_env(
+      chart_repo=local_repo,
+      chart_clone_dir=clone_into,
+      chart_dir=copy_into,
+      overrides_path=f'{overrides_dir}/{file}.yaml'
+    )
+    git_init_local_repo()
+    main.init_helm()
+    return list(yaml.load_all(main.interpolate(), Loader=yaml.FullLoader))[0]
 
   def test_clone_chart_repo_cmd(self):
     set_env(
@@ -71,6 +100,15 @@ class TestMain(unittest.TestCase):
     )
     git_init_local_repo()
     main.init_helm()
-    # self.assertTrue(os.path.exists(clone_into))
-    # self.assertGreater(len(os.listdir(clone_into)), 1)
+    self.assertTrue(os.path.exists(clone_into))
+    self.assertGreater(len(os.listdir(clone_into)), 1)
 
+  def test_interpolate_without_override(self):
+    svc = self.setup_interp('no_change')
+    actual = svc['spec']['ports'][0]['port']
+    self.assertEqual(actual, 9000)
+
+  def test_interpolate_with_override(self):
+    svc = self.setup_interp('plus_one')
+    actual = svc['spec']['ports'][0]['port']
+    self.assertEqual(actual, 9001)
