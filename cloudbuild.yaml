@@ -1,0 +1,22 @@
+steps:
+  - id: "Build Image"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "build"
+      - "."
+      - "-t"
+      - "gcr.io/nectar-bazaar/helm-ted:latest"
+
+  - id: "Test Image"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "run"
+
+  - id: "Deploy Image"
+    name: 'gcr.io/cloud-builders/docker'
+    waitFor: ["Build Image"]
+    args:
+      - "push"
+      - "."
+      - "-t"
+      - "gcr.io/nectar-bazaar/helm-ted:latest"

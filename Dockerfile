@@ -14,11 +14,6 @@ RUN mv linux-amd64/helm /usr/local/bin
 RUN rm helm_bin.tar.gz
 RUN rm -rf linux-amd64
 
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-RUN chmod +x ./kubectl
-RUN mv ./kubectl /usr/local/bin/kubectl
-RUN kubectl version --client
-
 ADD . .
-RUN ls
-ENTRYPOINT ["pipenv", "run", "python3", "/app/main.py"]
+
+ENTRYPOINT ["pipenv", "run", "python3"]
