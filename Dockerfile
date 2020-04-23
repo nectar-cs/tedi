@@ -19,4 +19,9 @@ RUN rm -rf linux-amd64
 
 ADD . .
 
-CMD ["pipenv", "run", "python3", "-m", "unittest"]
+ENV CHART_CLONE_DIR=/tmp/in
+ENV CHART_DIR=/tmp/out
+ENV CHART_REPO=https://github.com/helm/charts.git
+ENV CHART_SUB_PATH=stable/mysql
+
+CMD ["pipenv", "run", "python3", "helm_ted/main.py", "init"]

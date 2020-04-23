@@ -1,16 +1,30 @@
 steps:
-  - id: "Build Test Image"
+#  - id: "Build Test Image"
+#    name: 'gcr.io/cloud-builders/docker'
+#    args:
+#      - "build"
+#      - "."
+#      - "-t"
+#      - "testing"
+#      - '-f'
+#      - 'RunTestsDockerfile'
+#
+#  - id: "Test Image"
+#    name: 'gcr.io/cloud-builders/docker'
+#    args:
+#      - "run"
+#      - "testing"
+
+  - id: "Build GCR Image"
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "build"
       - "."
       - "-t"
-      - "testing"
-      - '-f'
-      - 'RunTestsDockerfile'
+      - "gcr.io/nectar-bazaar/helm-ted"
 
   - id: "Test Image"
     name: 'gcr.io/cloud-builders/docker'
     args:
-      - "run"
-      - "testing"
+      - "push"
+      - "gcr.io/nectar-bazaar/helm-ted"
