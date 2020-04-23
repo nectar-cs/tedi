@@ -15,6 +15,13 @@ copy_into = '/tmp/helm-ted-ci/chart'
 local_repo = 'sim_chart_repo'
 overrides_dir = 'overrides'
 
+full_path = os.path.realpath(__file__)
+print("FIRST " + full_path + "\n")
+
+print("This file directory and name")
+path, filename = os.path.split(full_path)
+print(path + ' --> ' + filename + "\n")
+
 def set_env(**kwargs):
   for key, value in kwargs.items():
     os.environ[key.upper()] = value
