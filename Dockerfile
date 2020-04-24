@@ -19,7 +19,4 @@ RUN rm -rf linux-amd64
 
 ADD . .
 
-ENV REPO_NAME=https://github.com/helm/charts.git
-ENV REPO_SUBPATH=stable/mysql
-
 ENTRYPOINT ["pipenv", "run", "python3", "app.py"]
