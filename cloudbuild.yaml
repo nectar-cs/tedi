@@ -31,4 +31,3 @@ steps:
     args:
       - "push"
       - "gcr.io/nectar-bazaar/teds"
-      -
