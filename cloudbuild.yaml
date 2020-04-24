@@ -1,19 +1,18 @@
 steps:
-#  - id: "Build Test Image"
-#    name: 'gcr.io/cloud-builders/docker'
-#    args:
-#      - "build"
-#      - "."
-#      - "-t"
-#      - "testing"
-#      - '-f'
-#      - 'RunTestsDockerfile'
-#
-#  - id: "Test Image"
-#    name: 'gcr.io/cloud-builders/docker'
-#    args:
-#      - "run"
-#      - "testing"
+  - id: "Build Test Image"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "build"
+      - "."
+      - "-t"
+      - "teds-test"
+      - '-f'
+      - 'RunTestsDockerfile'
+
+  - id: "Test Image"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "run"
 
   - id: "Build GCR Image"
     name: 'gcr.io/cloud-builders/docker'
@@ -21,10 +20,10 @@ steps:
       - "build"
       - "."
       - "-t"
-      - "gcr.io/nectar-bazaar/helm-ted"
+      - "gcr.io/nectar-bazaar/teds"
 
-  - id: "Test Image"
+  - id: "Push to GCR"
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "push"
-      - "gcr.io/nectar-bazaar/helm-ted"
+      - "gcr.io/nectar-bazaar/teds"
