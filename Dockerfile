@@ -19,4 +19,4 @@ RUN rm -rf linux-amd64
 
 ADD . .
 
-ENTRYPOINT ["pipenv", "run", "python3", "app.py"]
+CMD ["pipenv", "run", "python3", "app.py", "helm", "interpolate"]

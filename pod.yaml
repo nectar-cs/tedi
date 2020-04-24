@@ -25,7 +25,8 @@ spec:
           mountPath: /tmp/work
   containers:
     - name: main
-      args: ['helm', 'interpolate']
+      command: [ "/bin/sh", "-c", "--" ]
+      args: [ "while true; do sleep 10; done;" ]
       image: gcr.io/nectar-bazaar/teds:latest
       imagePullPolicy: Always
       env:
