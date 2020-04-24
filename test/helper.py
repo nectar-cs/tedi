@@ -7,8 +7,10 @@ from teds import utils
 tmp = os.environ.get("TEST_TMP_ROOT", '/tmp')
 clone_into = f'{tmp}/helm-ted-ci/raw'
 copy_into = f'{tmp}/helm-ted-ci/chart'
-local_repo = f'{utils.project_root()}/test/sim_chart_repo'
+local_repo_src = f'{utils.project_root()}/test/sim_helm_repo'
 overrides_dir = f'{utils.project_root()}/test/overrides'
+local_repo = "/tmp/gito"
+
 
 def set_env(**kwargs):
   for key, value in kwargs.items():
@@ -17,11 +19,14 @@ def set_env(**kwargs):
 
 def git_init_local_repo():
   here = utils.exec_cmd("pwd")
-  cmd = f"cd {local_repo}; " \
+  cmd = f"rsync -r {local_repo_src}/. {local_repo} ; " \
+        f"cd {local_repo}; " \
         f"git init; " \
         f"git add . -A; " \
         f"git commit -m 't'; " \
         f"cd {here}"
+  print("ABOUT TO")
+  print(cmd)
   subprocess.check_output(cmd, shell=True)
 
 
