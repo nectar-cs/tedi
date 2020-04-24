@@ -10,12 +10,14 @@ steps:
       - 'RunTestsDockerfile'
 
   - id: "Test Image"
+    waitFor: ["Build Test Image"]
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "run"
       - "teds-test"
 
   - id: "Build GCR Image"
+    waitFor: ["Test Image"]
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "build"
@@ -24,7 +26,9 @@ steps:
       - "gcr.io/nectar-bazaar/teds"
 
   - id: "Push to GCR"
+    waitFor: ["Build GCR Image"]
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "push"
       - "gcr.io/nectar-bazaar/teds"
+      -
