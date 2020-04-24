@@ -14,7 +14,8 @@ local_repo = "/tmp/gito"
 
 def set_env(**kwargs):
   for key, value in kwargs.items():
-    os.environ[key.upper()] = value
+    if value is not None:
+      os.environ[key.upper()] = value
 
 
 def git_init_local_repo():
@@ -40,4 +41,5 @@ def clean_up():
     repo_subpath='',
     working_dir='',
     repo_name='',
+    overrides_path='',
   )
