@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: teds
+  labels:
+    app: teds
+spec:
+  restartPolicy: Never
+  initContainers:
+    - name: init
+      args: ['helm', 'init']
+      image: gcr.io/nectar-bazaar/teds:latest
+      imagePullPolicy: Always
+      env:
+        - name: REPO_NAME
+          value: https://github.com/helm/charts.git
+        - name: REPO_SUBPATH
+          value: stable/mysql
+        - name:  CLONE_INTO_DIR
+          value: /tmp/work/in
+        - name:  WORKING_DIR
+          value: /tmp/work/out
+      volumeMounts:
+        - name: shared
+          mountPath: /tmp/work
+  containers:
+    - name: main
+      args: ['helm', 'interpolate']
+      image: gcr.io/nectar-bazaar/teds:latest
+      imagePullPolicy: Always
+      env:
+        - name:  WORKING_DIR
+          value: /tmp/work/out
+      volumeMounts:
+        - name: shared
+          mountPath: /tmp/work
+
+  volumes:
+    - name: shared
+      emptyDir: {}
