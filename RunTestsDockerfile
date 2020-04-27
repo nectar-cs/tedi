@@ -22,4 +22,11 @@ ADD . .
 RUN mkdir /app/lols
 ENV TEST_TMP_ROOT /app/lols
 
+
+CMD ["pipenv", "run", "python3", "-m", "unittest"]
+
+FROM ruby:2.6.3-alpine3.10
+RUN gem install bundler
+RUN bundler -v
+
 CMD ["pipenv", "run", "python3", "-m", "unittest"]

@@ -15,8 +15,8 @@ def project_root() -> Path:
   return Path(__file__).parent.parent
 
 
-def exec_cmd(cmd):
-  raw = subprocess.check_output(cmd, shell=True)
+def exec_cmd(cmd, **kwargs):
+  raw = subprocess.check_output(cmd, shell=True, **kwargs)
   as_str = raw.decode("utf-8")
   return as_str[:-1]
 

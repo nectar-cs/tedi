@@ -17,7 +17,7 @@ def main():
     raise RuntimeError(f"Unrecognized Ted {ted_type}")
 
   if 'init' in sys.argv:
-    print(utils.init())
+    print(ted.init())
   if 'interpolate' in sys.argv:
     print(ted.interpolate())
 

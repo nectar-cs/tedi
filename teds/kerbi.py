@@ -1,7 +1,21 @@
 from teds import utils as ut
 
 
+
+
+def init():
+  if ut.init():
+    command = f"~/.rbenv/shims/bundle"
+    result = ut.exec_cmd(command, cwd=ut.working_dir())
+    print(result)
+
+
 def interpolate():
-  f_paths = " -f ".join([ut.values_path(), ut.overrides_path()])
-  command = f"ruby app.py {ut.working_dir()} -f {f_paths}"
-  return ut.exec_cmd(command)
+  paths = [ut.values_path(), ut.overrides_path()]
+  print(paths)
+  real_paths = [p for p in paths if p]
+  f_paths = " -f ".join(real_paths)
+  command = f"~/.rbenv/shims/ruby app.rb -f {f_paths}"
+  print(command)
+  print(ut.exec_cmd("ls", cwd=ut.working_dir()))
+  return ut.exec_cmd(command, cwd=ut.working_dir())

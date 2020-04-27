@@ -7,7 +7,6 @@ from teds import utils
 tmp = os.environ.get("TEST_TMP_ROOT", '/tmp')
 clone_into = f'{tmp}/helm-ted-ci/raw'
 copy_into = f'{tmp}/helm-ted-ci/chart'
-local_repo_src = f'{utils.project_root()}/test/sim_helm_repo'
 overrides_dir = f'{utils.project_root()}/test/override_yamls'
 local_repo = "/tmp/gito"
 
@@ -18,7 +17,7 @@ def set_env(**kwargs):
       os.environ[key.upper()] = value
 
 
-def git_init_local_repo():
+def git_init_local_repo(local_repo_src):
   here = utils.exec_cmd("pwd")
   cmd = f"rsync -r {local_repo_src}/. {local_repo} ; " \
         f"cd {local_repo}; " \

@@ -40,14 +40,3 @@ class TestUtils(unittest.TestCase):
     actual = utils.cp_repo_to_dir_cmd()
     self.assertEqual(actual, "rsync -r /from/path/. /chart")
 
-  def test_init_helm(self):
-    self.assertFalse(os.path.exists(helper.clone_into))
-    helper.set_env(
-      repo_name=helper.local_repo,
-      clone_into_dir=helper.clone_into,
-      working_dir=helper.copy_into,
-    )
-    helper.git_init_local_repo()
-    utils.init()
-    self.assertTrue(os.path.exists(helper.clone_into))
-    self.assertGreater(len(os.listdir(helper.clone_into)), 1)

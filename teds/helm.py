@@ -1,5 +1,8 @@
 from teds import utils as ut
 
+def init():
+  ut.init()
+
 
 def interpolate():
   paths = [ut.values_path(), ut.overrides_path()]
