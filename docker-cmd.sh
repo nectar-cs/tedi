@@ -2,7 +2,7 @@
 
 if [[ "$1" == "test" ]]; then
   pipenv run coverage run -m unittest
-  if [[ ! -z "${DEPLOY_ENV}" ]]; then
+  if [[ ! -z "${CODECOV_TOKEN}" ]]; then
     pipenv run coverage report -m
     bash <(curl -s https://codecov.io/bash); exit 0
   else
