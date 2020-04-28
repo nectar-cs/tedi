@@ -19,7 +19,7 @@ def main():
   if 'init' in sys.argv:
     print(ted.init())
   if 'interpolate' in sys.argv:
-    print(ted.interpolate())
+    print(ted.interpolate(), flush=True)
 
 
 if __name__ == '__main__':
