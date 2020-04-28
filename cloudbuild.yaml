@@ -1,33 +1,30 @@
+images:
+  - "gcr.io/nectar-bazaar/teds"
+
 steps:
-  - id: "Build Test Image"
+  - id: "Pull Latest"
     name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "pull"
+      - "gcr.io/nectar-bazaar/teds"
+
+  - id: "Build Image"
+    name: 'gcr.io/cloud-builders/docker'
+    waitFor: ["Pull Latest"]
     args:
       - "build"
       - "."
       - "-t"
-      - "teds-test"
-      - '-f'
-      - 'RunTestsDockerfile'
+      - "teds"
+      - "-t"
+      - "gcr.io/nectar-bazaar/teds"
+      - "--from-cache"
+      - "gcr.io/nectar-bazaar/teds"
 
-  - id: "Test Image"
-    waitFor: ["Build Test Image"]
+  - id: "Run Tests"
+    waitFor: ["Build Image"]
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "run"
-      - "teds-test"
-
-  - id: "Build GCR Image"
-    waitFor: ["Test Image"]
-    name: 'gcr.io/cloud-builders/docker'
-    args:
-      - "build"
-      - "."
-      - "-t"
-      - "gcr.io/nectar-bazaar/teds"
-
-  - id: "Push to GCR"
-    waitFor: ["Build GCR Image"]
-    name: 'gcr.io/cloud-builders/docker'
-    args:
-      - "push"
-      - "gcr.io/nectar-bazaar/teds"
+      - "teds"
+      - "test"
