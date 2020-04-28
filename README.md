@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/nectar-cs/teds/branch/master/graph/badge.svg)](https://codecov.io/gh/nectar-cs/teds)
 
 Getting a running container:
 `id=docker run -t -d -it teds`

@@ -18,7 +18,7 @@ steps:
       - "teds"
       - "-t"
       - "gcr.io/nectar-bazaar/teds"
-      - "--from-cache"
+      - "--cache-from"
       - "gcr.io/nectar-bazaar/teds"
 
   - id: "Run Tests"
@@ -26,5 +26,7 @@ steps:
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "run"
+      - "--env"
+      - "CODECOV_TOKEN=${_CODECOV_TOKEN}"
       - "teds"
       - "test"
