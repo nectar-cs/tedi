@@ -45,12 +45,10 @@ class TestKerbi(unittest.TestCase):
 
   def test_interpolate_without_override(self):
     svc = setup_interp(None)
-    print(svc)
     actual = svc['spec']['ports'][0]['port']
     self.assertEqual(actual, 9000)
 
   def test_interpolate_with_override(self):
     svc = setup_interp('plus_one')
-    print(svc)
     actual = svc['spec']['ports'][0]['port']
     self.assertEqual(actual, 9001)
