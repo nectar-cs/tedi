@@ -6,7 +6,7 @@ steps:
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "pull"
-      - "gcr.io/nectar-bazaar/teds"
+      - "gcr.io/nectar-bazaar/python-rubies:latest"
 
   - id: "Build Image"
     name: 'gcr.io/cloud-builders/docker'
@@ -19,7 +19,7 @@ steps:
       - "-t"
       - "gcr.io/nectar-bazaar/teds"
       - "--cache-from"
-      - "gcr.io/nectar-bazaar/teds"
+      - "gcr.io/nectar-bazaar/python-rubies:latest"
 
   - id: "Run Tests"
     waitFor: ["Build Image"]
