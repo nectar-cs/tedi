@@ -1,20 +1,19 @@
 import sys
 
-from teds import helm, kerbi, utils
+from teds import helm, kerbi
 
 
 def main():
-  if len(sys.argv) < 2:
-    raise RuntimeError(f"Missing args")
 
-  ted_type = sys.argv[1]
+  print("Here's what I'm seeing")
+  print(sys.argv)
 
-  if ted_type == 'kerbi':
+  if 'kerbi' in sys.argv:
     ted = kerbi
-  elif ted_type == 'helm':
+  elif 'helm' in sys.argv:
     ted = helm
   else:
-    raise RuntimeError(f"Unrecognized Ted {ted_type}")
+    raise RuntimeError(f"Unrecognized Ted {sys.argv}")
 
   if 'init' in sys.argv:
     print(ted.init())
