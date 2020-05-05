@@ -9,7 +9,5 @@ if [[ "$1" == "test" ]]; then
     echo "No CodeCov token found"
   fi
 else
-  echo "Passing following to app.py"
-  echo "$@"
   pipenv run python3 app.py "$@"
 fi
