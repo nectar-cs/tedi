@@ -13,8 +13,6 @@ def bundle_gems():
 
 def interpolate(extras=''):
   bundle_gems()
-  paths = [ut.values_path(), ut.overrides_path()]
-  real_paths = [p for p in paths if p]
-  f_paths = " -f ".join(real_paths)
-  command = f"~/.rbenv/bin/rbenv exec ruby app.rb -f {f_paths} {extras}"
+  overrides_flag = ut.overrides_path() and f"-f {ut.overrides_path()}"
+  command = f"~/.rbenv/bin/rbenv exec ruby app.rb {overrides_flag} {extras}"
   return ut.exec_cmd(command, cwd=ut.working_dir())
