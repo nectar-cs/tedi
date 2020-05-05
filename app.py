@@ -23,10 +23,6 @@ def extras() -> str:
 
 
 def main():
-  for arg in sys.argv:
-    print(arg)
-
-  print(extras())
   if 'kerbi' in sys.argv:
     ted = kerbi
   elif 'helm' in sys.argv:
