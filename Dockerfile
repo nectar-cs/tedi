@@ -1,4 +1,4 @@
-FROM gcr.io/nectar-bazaar/python-rubies:latest
+FROM gcr.io/nectar-bazaar/tedi-base:latest
 
 ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
