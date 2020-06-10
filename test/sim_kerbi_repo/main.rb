@@ -1,14 +1,14 @@
 require 'kerbi'
 
-class SimpleGen < Kerbi::Gen
+class SimpleMixer < Kerbi::Mixer
   locate_self __dir__
-  def gen
-    safe_gen do |res|
+  def run
+    super do |res|
       res.yaml 'svc'
     end
   end
 end
 
-kerbi.generators = [ SimpleGen ]
+kerbi.generators = [ SimpleMixer ]
 
 puts kerbi.gen_yaml
