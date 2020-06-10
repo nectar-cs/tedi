@@ -2,15 +2,8 @@ images:
   - "gcr.io/nectar-bazaar/tedi"
 
 steps:
-#  - id: "Pull Latest"
-#    name: 'gcr.io/cloud-builders/docker'
-#    args:
-#      - "pull"
-#      - "gcr.io/nectar-bazaar/python-rubies:latest"
-
   - id: "Build Image"
     name: 'gcr.io/cloud-builders/docker'
-#    waitFor: ["Pull Latest"]
     args:
       - "build"
       - "."

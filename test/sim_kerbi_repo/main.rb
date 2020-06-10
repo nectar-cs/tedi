@@ -3,8 +3,8 @@ require 'kerbi'
 class SimpleMixer < Kerbi::Mixer
   locate_self __dir__
   def run
-    super do |res|
-      res.yaml 'svc'
+    super do |g|
+      g.yaml 'svc'
     end
   end
 end
